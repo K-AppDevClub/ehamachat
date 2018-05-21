@@ -9,29 +9,28 @@
 
 <template>
   <v-ons-page>
-    <navbar></navbar>
-  <div class='page-content' align='center'>
-    <v-ons-list> 
-      <v-ons-list-header>
-        <v-ons-icon icon="ion-favorite, material:md-favorite"></v-ons-icon>
-        リスト
-      </v-ons-list-header>
-      <v-ons-list-item @click="goRegion">地域:  {{currentArea.name}}</v-ons-list-item>
-      <v-ons-list-item @click="goRegion">並び順：人気順</v-ons-list-item>
-    </v-ons-list>
-    <!-- <v-ons-list-header>話題のデート体験記</v-ons-list-header> -->
-    <v-ons-card v-for='item in experiences' :v-bind='item' v-bind:key="item.id" @click="goPlan(item.id)">
-      <img v-bind:src="item.courses[0].thumbnail" style="width: 100%">
-      <div class="title">
-        {{ item.title }}
-      </div>
-      <div class="content">
-        {{ item.detail }}
-      </div>
-    </v-ons-card>
-    <v-ons-fab @click="goCreate" style="position:fixed;" modifier="material" position="bottom right" >
+    <navbar navType='brank'></navbar>
+  <div class='page-content' align='center' msg="RoomList">
+    <ons-card>
+      <h1> JoinRoom </h1>
+      <h2>RoomId:  </h2>
+      <v-ons-list-item>
+        <v-ons-input placeholder="（例：12345678）" float v-model="joinid"></v-ons-input>
+      </v-ons-list-item>
+      <h2>{{joinid}}</h2>
+      <v-ons-button style="margin: 6px 0" @click="joinChat()">はいる！</v-ons-button>
+    </ons-card>
+    <ons-card>
+      <h1> MakeRoom </h1>
+      <h2>RoomName: </h2>
+      <v-ons-list-item>
+        <v-ons-input placeholder="（例：俺たち陽きゃ）" ></v-ons-input>
+      </v-ons-list-item>
+      <v-ons-button style="margin: 6px 0" @click="makeChat()">つくる！</v-ons-button>
+    </ons-card>
+    <!-- <v-ons-fab @click="makeRoom()" style="position:fixed;" modifier="material" position="bottom right" >
       <v-ons-icon icon="md-plus"></v-ons-icon>
-    </v-ons-fab>
+    </v-ons-fab> -->
   </div>
   </v-ons-page>
 </template>
@@ -43,55 +42,54 @@ import RegionPage from '../../pages/region/Region';
 import DetailPlan from '../../pages/detail-plan/DetailPlan';
 import Navbar from '../../components/navbar/Navbar';
 import Config from '../../config/Config';
+import ChatPage from '../../pages/chat-page/ChatPage' 
 
 export default {
   name: 'posts-page',
   components: {
-    LoadingIndicator,
+    //LoadingIndicator,
     Navbar,
   },
+  params: {
+    roomid: {
+      default: 1,
+    },
+  },
   methods: {
-    goCreate() {
-      this.$emit('push-page', CreatePlan)
+    goChat(){
+      this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
     },
-    goRegion() {
-      this.$emit('push-page', RegionPage)
+    joinChat(){
+      this.roomid=this.joinid;
+      console.log(this.roomid);
+      this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
     },
-    goPlan(id) {
-      this.$emit('push-page', {
-        extends: DetailPlan,
-        onsNavigatorProps: {
-          plan_id: id,
+    makeChat(){
+      this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
+    },
+    postRoomname(){
+      //console.log(this.paramsid);
+      this.axios.post(this.url, {
+        room: {
+          room_id: this.room_id
         }
       })
+      .then(res => {
+        console.log(res)
+      });
     },
   },
   created() {
-    this.axios.get("http://59.157.6.140:3000/plans")
-    .then((res) => {
-      console.log(res.data);
-      this.experiences = res.data
-    });
+    // this.axios.get("http://59.157.6.140:3000/plans")
+    // .then((res) => {
+    //   console.log(res.data);
+    //   this.experiences = res.data
+    // });
   },
   data() {
     return {
       config: Config,
-      experiences: [
-        {
-          title: 'えはまの奮発日記',
-          detail: 'tinderで知り合った女性と食事することになりました。しかし女性の右手には...',
-          path: 'detail-plan',
-          color: '#085078',
-          courses: [{thumbnail:""}]
-        },
-        {
-          title: 'sawlowの遅漏体験',
-          detail: '...',
-          path: 'detail-plan',
-          color: '#085078',
-          courses: [{thumbnail:""}]
-        },
-      ],
+      joinid:1,
     };
   },
   computed: {
