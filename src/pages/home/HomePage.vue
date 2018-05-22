@@ -2,6 +2,13 @@
   <v-ons-page>
     <navbar navType="blank" msg="えはまチャット"></navbar>
     <ons-card>
+      <h1>ユーザー名入力</h1>
+      <v-ons-list-item>
+        <span style="margin-right:15px;">ユーザー名: </span>
+        <v-ons-input placeholder="（例：燃えるゴミ）" float v-model="user_name"></v-ons-input>
+      </v-ons-list-item>
+    </ons-card>
+    <ons-card>
       <h1>ルームに参加</h1>
       <v-ons-list-item>
         <span style="margin-right:15px;">ルーム名: </span>
@@ -46,6 +53,8 @@ export default {
       config: Config,
       join_name: '',
       make_name: '',
+      user_name: localStorage.getItem('Name'),
+      strage_name:''
     };
   },
   methods: {
@@ -77,9 +86,11 @@ export default {
       });
     },
     goRoom(res) {
+      localStorage.setItem('Name' , this.user_name);
       this.$router.push({ name: 'chat-page' ,params: { 
         room_id: res.data.id, 
         room_name: res.data.name, 
+        user_name: this.user_name
       } });
     },
   },

@@ -2,7 +2,7 @@
   <ons-page>
     <navbar navType="back" backType="router" v-bind:msg="room_name"></navbar>
     <chat-room/>
-    <chat v-bind:room_id="room_id"/>
+    <chat v-bind:room_id="room_id" v-bind:name="user_name"/>
   </ons-page>
 </template>
 
@@ -23,15 +23,18 @@ export default {
   created(){
     this.room_id =this.$route.params.room_id;
     this.room_name =this.$route.params.room_name;
+    this.user_name = this.$route.params.user_name;
     console.log(this.$route.params);
     console.log(this.room_id);
     console.log(this.room_name);
+    console.log(this.user_name);
   },
 
   data(){
     return{
       room_id:1,
       room_name:"",
+      user_name:"",
     }
   },
   method:{
