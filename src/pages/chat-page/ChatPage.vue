@@ -27,6 +27,7 @@ export default {
     console.log(this.room_id);
     console.log(this.room_name);
   },
+
   data(){
     return{
       room_id:1,
