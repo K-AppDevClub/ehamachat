@@ -28,6 +28,13 @@ export default {
       messageChannel: null,
     };
   },
+  beforeDestroy() {
+    // this.messageChannel.perform('unsubscribed');
+    this.$cable.subscriptions.remove(this.messageChannel);
+  },
+  destroyed() {
+    console.log("destroyed component")
+  },
   mounted() {
     var that = this
     this.messageChannel = this.$cable.subscriptions.create( "MessageChannel",

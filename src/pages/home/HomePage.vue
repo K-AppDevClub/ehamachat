@@ -1,18 +1,18 @@
 <template>
   <v-ons-page>
-  <div class='page-content' align='center' msg="RoomList">
+    <navbar navType="blank" msg="えはまチャット"></navbar>
     <ons-card>
-      <h1> JoinRoom </h1>
-      <h2>RoomId:  </h2>
+      <h1>ルームに参加</h1>
       <v-ons-list-item>
+        <span style="margin-right:15px;">ルーム名: </span>
         <v-ons-input placeholder="（例：なんでも）" float v-model="join_name"></v-ons-input>
       </v-ons-list-item>
       <v-ons-button style="margin: 6px 0" @click="joinRoom()">はいる！</v-ons-button>
     </ons-card>
     <ons-card>
-      <h1> MakeRoom </h1>
-      <h2>RoomName: </h2>
+      <h1>ルームを作る</h1>
       <v-ons-list-item>
+        <span style="margin-right:15px;">ルーム名: </span>
         <v-ons-input placeholder="（例：俺たち陽きゃ）" float v-model="make_name"></v-ons-input>
       </v-ons-list-item>
       <v-ons-button style="margin: 6px 0" @click="makeRoom()">つくる！</v-ons-button>
@@ -20,7 +20,6 @@
     <!-- <v-ons-fab @click="makeRoom()" style="position:fixed;" modifier="material" position="bottom right" >
       <v-ons-icon icon="md-plus"></v-ons-icon>
     </v-ons-fab> -->
-  </div>
   </v-ons-page>
 </template>
 
@@ -35,15 +34,10 @@ import ChatRoom from '../../components/chat-room/ChatRoom'
 
 export default {
   name: 'posts-page',
-  
   components: {
     LoadingIndicator,
     ChatRoom,
-  },
-  params: {
-    roomid: {
-      default: 1,
-    },
+    Navbar,
   },
   data() {
     return {
@@ -55,49 +49,44 @@ export default {
     };
   },
   methods: {
-  
     joinRoom(){
-      //console.log(this.paramsid);
       this.axios.post(this.joinurl, {
-          name: this.join_name
+        name: this.join_name
       })
-      .then(res => {
-        console.log(res)
-        this.roomid = res.data.id
-        console.log(res.data.id)
-        this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
+      .then(room_data => {
+        console.log(room_data)
+        this.goRoom(room_data)
+      })
+      .catch(err => {
+        this.$ons.notification.alert('ルームが存在しません');
       });
     },
     makeRoom(){
-      //console.log(this.paramsid);
       this.axios.post(this.makeurl, {
         room: {
           name: this.make_name
         }
       })
-      .then(res => {
-        console.log(res)
-        this.roomid = res.data.id
-        console.log(res.data.id)
-        this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
-        //goChat();
+      .then(room_data => {
+        console.log(room_data)
+        this.goRoom(room_data)
+
+      })
+      .catch(err => {
+        this.$ons.notification.alert('そのルーム名はすでに使われています');
       });
     },
-    
+    goRoom(res) {
+      this.$router.push({ name: 'chat-page' ,params: { 
+        room_id: res.data.id, 
+        room_name: res.data.name, 
+      } });
+    },
   },
-  created() {
-    // this.axios.get("http://59.157.6.140:3000/plans")
-    // .then((res) => {
-    //   console.log(res.data);
-    //   this.experiences = res.data
-    // });
-  },
-  
   computed: {
     currentArea() {
       return this.$store.state.currentArea;
     },
   }
-
 };
 </script>

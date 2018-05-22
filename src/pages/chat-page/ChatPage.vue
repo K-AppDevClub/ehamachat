@@ -1,8 +1,8 @@
 <template>
   <ons-page>
-    <navbar></navbar>
-    <navbar navType="back" backType="router" msg=""></navbar>
+    <navbar navType="back" backType="router" v-bind:msg="room_name"></navbar>
     <chat-room/>
+    <chat v-bind:room_id="room_id"/>
   </ons-page>
 </template>
 
@@ -10,7 +10,7 @@
 import Navbar from '../../components/navbar/Navbar';
 import EhamaForm from '../../components/form/Form';
 import ChatRoom from '../../components/chat-room/ChatRoom'
-
+import Chat from '../../components/chat/Chat'
 
 export default {
   name: 'chat-page',
@@ -18,28 +18,25 @@ export default {
     Navbar,
     EhamaForm,
     ChatRoom,
-  },
-  params: {
-    roomid: {
-      default: null,
-    },
+    Chat,
   },
   created(){
-    console.log(this.$route.params.roomid);
-    this.roomidd =this.$route.params.roomid;
-    console.log(this.roomidd);
+    this.room_id =this.$route.params.room_id;
+    this.room_name =this.$route.params.room_name;
+    console.log(this.$route.params);
+    console.log(this.room_id);
+    console.log(this.room_name);
   },
   data(){
     return{
-      roomidd:1
+      room_id:1,
+      room_name:"",
     }
-    
   },
   method:{
     backHome(){
       this.$router.push({ name: 'home'});
     },
   }
-  
 };
 </script>
