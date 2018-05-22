@@ -1,8 +1,6 @@
 <template>
   <v-ons-page>
-<<<<<<< HEAD
     <chat-room/>
-=======
     <navbar navType='brank'></navbar>
   <div class='page-content' align='center' msg="RoomList">
     <ons-card>
@@ -26,13 +24,11 @@
       <v-ons-icon icon="md-plus"></v-ons-icon>
     </v-ons-fab> -->
   </div>
->>>>>>> 4cf55cd515e59ec43e280c5f9b3ae90e34472270
   </v-ons-page>
 </template>
 
 <script>
 import LoadingIndicator from '../../components/loading-indicator/LoadingIndicator';
-import CreatePlan from '../../pages/create-plan/CreatePlan';
 import RegionPage from '../../pages/region/Region';
 import DetailPlan from '../../pages/detail-plan/DetailPlan';
 import Navbar from '../../components/navbar/Navbar';
@@ -93,6 +89,6 @@ export default {
       return this.$store.state.currentArea;
     },
   }
->>>>>>> 4cf55cd515e59ec43e280c5f9b3ae90e34472270
+
 };
 </script>
