@@ -19,6 +19,8 @@
         <v-ons-icon icon="ion-navicon, material:md-menu"></v-ons-icon>
       </v-ons-toolbar-button>
     </div>
+    <div v-if="navType=='brank'" class="left">
+    </div> 
     <div v-else-if="navType=='back'" class="left">
       <v-ons-back-button>戻る</v-ons-back-button>
     </div>
