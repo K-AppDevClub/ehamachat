@@ -19,19 +19,20 @@ export default {
     EhamaForm,
     ChatRoom,
   },
+
   params: {
     roomid: {
       default: null,
     },
   },
+
   created(){
-    console.log(this.$route.params.roomid);
     this.roomidd =this.$route.params.roomid;
-    console.log(this.roomidd);
   },
+
   data(){
     return{
-      roomidd:1
+      roomidd:1,
     }
     
   },
