@@ -5,6 +5,7 @@ import ChatPage from './pages/chat-page/ChatPage';
 import Recommend from './pages/recommend/Recommend';
 import DetailPlan from './pages/detail-plan/DetailPlan';
 import RegionPage from './pages/region/Region';
+import UserPage from './pages/user-page/UserPage';
 
 export default [
   { name: 'home', path: '/', component: HomeBase },
