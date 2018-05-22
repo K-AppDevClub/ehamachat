@@ -9,8 +9,6 @@ import DetailPlan from './pages/detail-plan/DetailPlan';
 import RegionPage from './pages/region/Region';
 import UserPage from './pages/user-page/UserPage';
 
-
-
 export default [
   { name: 'home', path: '/', component: HomeBase },
   { name: 'posts', path: '/posts', component: PostsPage },

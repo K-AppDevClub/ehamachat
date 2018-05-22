@@ -1,15 +1,15 @@
 <template>
   <ons-page>
     <navbar></navbar>
+    <navbar navType="back" backType="router" msg=""></navbar>
     <h1> Hellooooooo </h1>
-    <ehama-form></ehama-form>
-    <v-ons-button style="margin: 6px 0" @click="backHome()">もどる！</v-ons-button>
   </ons-page>
 </template>
 
 <script>
 import Navbar from '../../components/navbar/Navbar';
 import EhamaForm from '../../components/form/Form';
+
 
 export default {
   name: 'chat-page',
@@ -23,13 +23,15 @@ export default {
     },
   },
   created(){
-    console.log("huhu");
     console.log(this.$route.params.roomid);
     this.roomidd =this.$route.params.roomid;
     console.log(this.roomidd);
   },
   data(){
-    roomidd:1
+    return{
+      roomidd:1
+    }
+    
   },
   method:{
     backHome(){

@@ -1,7 +1,7 @@
 <template>
   <!-- <ons-page> -->
   <ons-page>
-    <!-- <navbar></navbar> -->
+    <navbar></navbar>
     <navbar navType="back" v-bind:msg="planname"></navbar>
     <!-- <h1 align="center"> 鹿児島県内のデートスポット </h1> -->
     <!-- <plan-component></plan-component>

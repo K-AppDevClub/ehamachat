@@ -15,18 +15,17 @@
       <h1> JoinRoom </h1>
       <h2>RoomId:  </h2>
       <v-ons-list-item>
-        <v-ons-input placeholder="（例：12345678）" float v-model="joinid"></v-ons-input>
+        <v-ons-input placeholder="（例：なんでも）" float v-model="join_name"></v-ons-input>
       </v-ons-list-item>
-      <h2>{{joinid}}</h2>
-      <v-ons-button style="margin: 6px 0" @click="joinChat()">はいる！</v-ons-button>
+      <v-ons-button style="margin: 6px 0" @click="joinRoom()">はいる！</v-ons-button>
     </ons-card>
     <ons-card>
       <h1> MakeRoom </h1>
       <h2>RoomName: </h2>
       <v-ons-list-item>
-        <v-ons-input placeholder="（例：俺たち陽きゃ）" ></v-ons-input>
+        <v-ons-input placeholder="（例：俺たち陽きゃ）" float v-model="make_name"></v-ons-input>
       </v-ons-list-item>
-      <v-ons-button style="margin: 6px 0" @click="makeChat()">つくる！</v-ons-button>
+      <v-ons-button style="margin: 6px 0" @click="makeRoom()">つくる！</v-ons-button>
     </ons-card>
     <!-- <v-ons-fab @click="makeRoom()" style="position:fixed;" modifier="material" position="bottom right" >
       <v-ons-icon icon="md-plus"></v-ons-icon>
@@ -55,29 +54,45 @@ export default {
       default: 1,
     },
   },
+  data() {
+    return {
+      joinurl: `http://k-appdev.com:3003/rooms/search`,
+      makeurl:`http://k-appdev.com:3003/rooms`, 
+      config: Config,
+      join_name: '',
+      make_name: '',
+    };
+  },
   methods: {
-    goChat(){
-      this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
-    },
-    joinChat(){
-      this.roomid=this.joinid;
-      console.log(this.roomid);
-      this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
-    },
-    makeChat(){
-      this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
-    },
-    postRoomname(){
+  
+    joinRoom(){
       //console.log(this.paramsid);
-      this.axios.post(this.url, {
+      this.axios.post(this.joinurl, {
+          name: this.join_name
+      })
+      .then(res => {
+        console.log(res)
+        this.roomid = res.data.id
+        console.log(res.data.id)
+        this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
+      });
+    },
+    makeRoom(){
+      //console.log(this.paramsid);
+      this.axios.post(this.makeurl, {
         room: {
-          room_id: this.room_id
+          name: this.make_name
         }
       })
       .then(res => {
         console.log(res)
+        this.roomid = res.data.id
+        console.log(res.data.id)
+        this.$router.push({ name: 'chat-page' , params:{roomid: this.roomid}});
+        //goChat();
       });
     },
+    
   },
   created() {
     // this.axios.get("http://59.157.6.140:3000/plans")
@@ -86,12 +101,7 @@ export default {
     //   this.experiences = res.data
     // });
   },
-  data() {
-    return {
-      config: Config,
-      joinid:1,
-    };
-  },
+  
   computed: {
     currentArea() {
       return this.$store.state.currentArea;
