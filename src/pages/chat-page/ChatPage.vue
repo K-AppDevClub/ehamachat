@@ -2,7 +2,7 @@
   <ons-page>
     <navbar navType="back" backType="router" v-bind:msg="room_name"></navbar>
     <chat-room/>
-    <chat v-bind:room_id="room_id"/>
+    <chat v-bind:room_id="room_id" v-bind:name="user_name"/>
   </ons-page>
 </template>
 
@@ -23,6 +23,7 @@ export default {
   created(){
     this.room_id =this.$route.params.room_id;
     this.room_name =this.$route.params.room_name;
+    this.user_name = this.$route.params.user_name;
     this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
     .then(res => {
       console.log(res.data)
@@ -37,6 +38,7 @@ export default {
     return{
       room_id:1,
       room_name:"",
+      user_name:"",
     }
   },
   method:{

@@ -41,7 +41,7 @@ export default {
           this.perform('room_login', {room_id: that.room_id, name: that.name});
         },
         disconnected() {
-          console.log("disconnected");
+          console.log("disconnected")
         },
         received(data) {
           console.log("received", data);
