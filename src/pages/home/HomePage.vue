@@ -1,6 +1,5 @@
 <template>
   <v-ons-page>
-    <chat-room/>
   <div class='page-content' align='center' msg="RoomList">
     <ons-card>
       <h1> JoinRoom </h1>

@@ -2,13 +2,14 @@
   <ons-page>
     <navbar></navbar>
     <navbar navType="back" backType="router" msg=""></navbar>
-    <h1> Hellooooooo </h1>
+    <chat-room/>
   </ons-page>
 </template>
 
 <script>
 import Navbar from '../../components/navbar/Navbar';
 import EhamaForm from '../../components/form/Form';
+import ChatRoom from '../../components/chat-room/ChatRoom'
 
 
 export default {
@@ -16,6 +17,7 @@ export default {
   components: {
     Navbar,
     EhamaForm,
+    ChatRoom,
   },
   params: {
     roomid: {
