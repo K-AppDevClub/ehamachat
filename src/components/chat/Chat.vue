@@ -3,9 +3,6 @@
 
 <template>
   <div>
-    <p v-for="(data,index) in messages" v-bind:key="index" style="text-align: left;">
-      {{data.name}}: {{data.message}}
-    </p>
     <v-ons-input id="message_input" placeholder="Input your message" float></v-ons-input>
     <v-ons-button v-if="messageChannel" @click="speak">送信</v-ons-button>
   </div>

@@ -13,6 +13,7 @@ export default new Vuex.Store({
   state: {
     menuIsOpen: false,
     roomMessages: [],
+    newMessage: {},
   },
   mutations: {
     toggleMenu(state, isToggle) {
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     },
     addMessage(state, data) {
       state.roomMessages.push(data);
+      state.newMessage = data;
     },
     initMessage(state, data) {
       state.roomMessages = data;

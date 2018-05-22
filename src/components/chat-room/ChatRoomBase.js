@@ -68,11 +68,11 @@ export function generateCanvas() {
         });
         
         var stack = this.Composites.stack(100, 300, 20, 7, 0, 0, (x, y) => {
-          return this.Bodies.rectangle(x, y, 25, 25);
+          // return this.Bodies.rectangle(x, y, 25, 25);
         });
         
         this.engine.world.gravity.y = 0.5; //重力を0に設定 デフォルトは1
-        this.World.add(this.engine.world, [stack, cirA, mouseConstraint, ground, groundl, groundr, groundt]);
+        this.World.add(this.engine.world, [stack, mouseConstraint, ground, groundl, groundr, groundt]);
         // keep the mouse in sync with rendering
         this.render.mouse = mouse;
         this.Engine.run(this.engine);
