@@ -7,11 +7,7 @@
         <span style="margin-right:15px;">ルーム名: </span>
         <v-ons-input placeholder="（例：なんでも）" float v-model="join_name"></v-ons-input>
       </v-ons-list-item>
-<<<<<<< HEAD
       <v-ons-button style="margin: 6px 0" @click="joinRoom()">はいる！</v-ons-button>
-=======
-      <v-ons-button style="margin: 6px 0" @click="joinChat()">はいる！</v-ons-button>
->>>>>>> design
     </ons-card>
     <ons-card>
       <h1>ルームを作る</h1>
@@ -21,13 +17,9 @@
       </v-ons-list-item>
       <v-ons-button style="margin: 6px 0" @click="makeRoom()">つくる！</v-ons-button>
     </ons-card>
-<<<<<<< HEAD
     <!-- <v-ons-fab @click="makeRoom()" style="position:fixed;" modifier="material" position="bottom right" >
       <v-ons-icon icon="md-plus"></v-ons-icon>
     </v-ons-fab> -->
-=======
-  </div>
->>>>>>> design
   </v-ons-page>
 </template>
 
