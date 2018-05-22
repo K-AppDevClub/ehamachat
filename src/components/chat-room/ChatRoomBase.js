@@ -42,7 +42,7 @@ export function generateCanvas() {
           options: {
             width: width, height: height, 
             pixelRatio: 2, //Pixel比; スマホ用に2にする
-            background: "rgba(0, 20, 20, 120)",
+            background: "rgba(255, 255, 255, 255)",
             wireframes: false,
           }
         })

@@ -14,9 +14,9 @@ export default {
       canvas.width = 30
       canvas.height = 30
       var ctx = canvas.getContext("2d")
-      ctx.font = "5px serif";
-      ctx.strokeText("hh", 15, 15);
-      var url = canvas.toDataURL("image/jpeg")
+      ctx.font = "10px serif";
+      ctx.strokeText("ehama", 10, 10);
+      var url = canvas.toDataURL()
       console.log(url)
       var cir = that.Bodies.circle(30+i*10, 50, 20, { 
         restitution: 1.1,
