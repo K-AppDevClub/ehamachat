@@ -1,7 +1,6 @@
 <template>
   <v-ons-page>
     <chat-room/>
-    <navbar navType='brank'></navbar>
   <div class='page-content' align='center' msg="RoomList">
     <ons-card>
       <h1> JoinRoom </h1>
@@ -34,6 +33,7 @@ import DetailPlan from '../../pages/detail-plan/DetailPlan';
 import Navbar from '../../components/navbar/Navbar';
 import Config from '../../config/Config';
 import ChatPage from '../../pages/chat-page/ChatPage' 
+import ChatRoom from '../../components/chat-room/ChatRoom'
 
 export default {
   name: 'posts-page',

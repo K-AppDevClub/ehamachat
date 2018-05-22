@@ -14,6 +14,5 @@ export default [
   { name: 'recommend', path: '/recommend', component: Recommend },
   { name: 'detail-plan', path: '/detail-plan', component: DetailPlan },
   { name: 'region', path: '/region', component: RegionPage },
-  { name: 'userPage', path: '/user-page', component: UserPage },
   
 ];
