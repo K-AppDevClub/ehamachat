@@ -12,7 +12,7 @@ export default new Vuex.Store({
   },
   state: {
     menuIsOpen: false,
-    currentArea: { id: 1, name: '北海道' },
+    roomMessages: [],
   },
   mutations: {
     toggleMenu(state, isToggle) {
@@ -22,8 +22,11 @@ export default new Vuex.Store({
         state.menuIsOpen = !state.menuIsOpen;
       }
     },
-    setArea(state, data) {
-      state.currentArea = data;
+    addMessage(state, data) {
+      state.roomMessages.push(data);
+    },
+    initMessage(state, data) {
+      state.roomMessages = data;
     },
   },
 });

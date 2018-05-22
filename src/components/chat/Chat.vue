@@ -49,6 +49,8 @@ export default {
         received(data) {
           console.log("received", data);
           that.messages.push(data)
+          if(data.status=="msg")
+            that.$store.commit('addMessage', data );
         },
       }
     )

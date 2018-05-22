@@ -23,9 +23,14 @@ export default {
   created(){
     this.room_id =this.$route.params.room_id;
     this.room_name =this.$route.params.room_name;
-    console.log(this.$route.params);
-    console.log(this.room_id);
-    console.log(this.room_name);
+    this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
+    .then(res => {
+      console.log(res.data)
+      this.$store.commit('initMessage', res.data );
+    })
+    .catch(err => {
+      console.log(err)
+    });
   },
 
   data(){
