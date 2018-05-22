@@ -10,6 +10,10 @@
   ons-list-item {
     cursor: pointer;
   }
+  ons-button {
+    color: white;
+    font-weight: 600;
+  }
 </style>
 
 <template>
@@ -23,7 +27,8 @@
     </div> 
     <div v-else-if="navType=='back'" class="left">
       <div v-if="backType=='router'" class="left">
-        <v-ons-button modifier="quiet" @click="backHome">戻る</v-ons-button>
+        <!-- <v-ons-back-button modifier="quiet" @click="backHome"><div class="back">戻る</div></v-ons-back-button> -->
+        <v-ons-button modifier="quiet" @click="backHome"><div class="back">戻る</div></v-ons-button>
       </div>
       <div v-else class="left">
         <v-ons-back-button>戻る</v-ons-back-button>
