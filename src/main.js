@@ -15,7 +15,7 @@ import routes from './routes';
 const cable = ActionCable.createConsumer('ws:k-appdev.com:3003/cable');
 
 import 'onsenui/css/onsen-css-components.css';
-// import '../static/css/onsen-css-components-pink.min.css';
+import '../static/css/onsen-css-components-green.min.css';
 
 Vue.config.productionTip = false;
 
