@@ -10,6 +10,7 @@ import ChatRoom from '../../components/chat-room/ChatRoom'
 
 export default {
   name: 'posts-page',
+  
   components: {
     LoadingIndicator,
     ChatRoom
