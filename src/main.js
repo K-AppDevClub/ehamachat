@@ -13,7 +13,7 @@ import App from './App';
 import routes from './routes';
 
 import 'onsenui/css/onsen-css-components.css';
-// import '../static/css/onsen-css-components-pink.min.css';
+import '../static/css/onsen-css-components-green.min.css';
 
 Vue.config.productionTip = false;
 

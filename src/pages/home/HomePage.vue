@@ -17,7 +17,6 @@
       <v-ons-list-item>
         <v-ons-input placeholder="（例：12345678）" float v-model="joinid"></v-ons-input>
       </v-ons-list-item>
-      <h2>{{joinid}}</h2>
       <v-ons-button style="margin: 6px 0" @click="joinChat()">はいる！</v-ons-button>
     </ons-card>
     <ons-card>
@@ -28,9 +27,6 @@
       </v-ons-list-item>
       <v-ons-button style="margin: 6px 0" @click="makeChat()">つくる！</v-ons-button>
     </ons-card>
-    <!-- <v-ons-fab @click="makeRoom()" style="position:fixed;" modifier="material" position="bottom right" >
-      <v-ons-icon icon="md-plus"></v-ons-icon>
-    </v-ons-fab> -->
   </div>
   </v-ons-page>
 </template>
