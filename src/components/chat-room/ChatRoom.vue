@@ -10,7 +10,22 @@ export default {
     )
     var that = this;
     this.$store.state.roomMessages.forEach(function(v, i, a){ 
-      var cir = that.Bodies.circle(20+i*10, 50, 20, { restitution: 1.1 });
+      var canvas = document.createElement("canvas")
+      canvas.width = 30
+      canvas.height = 30
+      var ctx = canvas.getContext("2d")
+      ctx.font = "5px serif";
+      ctx.strokeText("hh", 15, 15);
+      var url = canvas.toDataURL("image/jpeg")
+      console.log(url)
+      var cir = that.Bodies.circle(30+i*10, 50, 20, { 
+        restitution: 1.1,
+        render: {
+          sprite: {
+              texture: url
+          }
+        }
+      });
       that.World.add(that.engine.world, [cir]);
     });
   },

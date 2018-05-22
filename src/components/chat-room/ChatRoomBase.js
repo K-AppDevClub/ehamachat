@@ -35,7 +35,6 @@ export function generateCanvas() {
     methods:{
       createCanvas(width, height) {
         var stage = this.$refs.canvas;
-        console.log(stage)
         this.engine = this.Engine.create()
         this.render = this.Render.create({
           element: stage,
