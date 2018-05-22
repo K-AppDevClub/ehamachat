@@ -34,6 +34,8 @@ export function generateCanvas() {
       return {
         Engine: Matter.Engine, World: Matter.World, 
         Bodies: Matter.Bodies, Render: Matter.Render,
+        MouseConstraint: Matter.MouseConstraint, Mouse: Matter.Mouse,
+        Composites: Matter.Composites,
      }
     },
 
@@ -52,12 +54,31 @@ export function generateCanvas() {
             wireframes: false,
           }
         })
-        var boxB = this.Bodies.rectangle(450, 50, 80, 80);
-        var ground = this.Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-        this.World.add(engine.world, [boxB, ground]);
-        engine.world.gravity.y = 0.1; //重力を0に設定 デフォルトは1
+
+        var boxB = this.Bodies.rectangle(320, 200, 80, 80);
+        var cirA = this.Bodies.circle(320, 50, 40, { restitution: 1.5 });
+        var ground = this.Bodies.rectangle(320, 600, 640, 50, { isStatic: true });
+        var mouse = this.Mouse.create(render.canvas);
+        var mouseConstraint = this.MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+        
+        var stack = this.Composites.stack(100, 300, 20, 7, 0, 0, (x, y) => {
+          return this.Bodies.rectangle(x, y, 25, 25);
+        });
+        
+        engine.world.gravity.y = 0.5; //重力を0に設定 デフォルトは1
+        this.World.add(engine.world, [stack, cirA, ground, mouseConstraint]);
+        // keep the mouse in sync with rendering
+        render.mouse = mouse;
         this.Engine.run(engine);
-        this.Render.run(render)
+        this.Render.run(render);
       },
     }
   }
