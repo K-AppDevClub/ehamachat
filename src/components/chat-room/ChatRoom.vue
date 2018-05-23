@@ -11,11 +11,24 @@ export default {
       document.documentElement.clientHeight-100
     )
     console.log(this.room_id)
-    var that = this;
-    console.log(this.$store.state.roomMessages)
-    this.$store.state.roomMessages.forEach(function(v, i, a){
-      that.addMessage(v.message);
+    this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
+    .then(res => {
+      console.log(res.data)
+      this.$store.commit('initMessage', res.data );
+
+      var that = this;
+      res.data.forEach(function(v, i, a){
+        that.addMessage(v.message);
+      });
+
+    })
+    .catch(err => {
+      console.log(err)
     });
+
+
+    // console.log(this.$store.state.roomMessages)
+    
   },
 
   methods: {

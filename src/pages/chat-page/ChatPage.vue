@@ -24,14 +24,14 @@ export default {
     this.room_id =this.$route.params.room_id;
     this.room_name =this.$route.params.room_name;
     this.user_name = this.$route.params.user_name;
-    this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
-    .then(res => {
-      console.log(res.data)
-      this.$store.commit('initMessage', res.data );
-    })
-    .catch(err => {
-      console.log(err)
-    });
+    // this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
+    // .then(res => {
+    //   console.log(res.data)
+    //   this.$store.commit('initMessage', res.data );
+    // })
+    // .catch(err => {
+    //   console.log(err)
+    // });
   },
 
   data(){
