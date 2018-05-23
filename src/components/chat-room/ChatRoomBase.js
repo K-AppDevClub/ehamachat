@@ -68,7 +68,7 @@ export function generateCanvas() {
           console.log(e.mouse.position);
           this.$store.commit('changeDragPos', {x:e.mouse.position.x,y:e.mouse.position.y} );
         });
-      },
+      },z
     },
 
     beforeDestroy (){
