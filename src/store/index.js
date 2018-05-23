@@ -10,6 +10,7 @@ export default new Vuex.Store({
     userInfo,
     createPlan,
   },
+
   state: {
     menuIsOpen: false,
     roomMessages: [],
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     dragPos: {},
     dragStream: {},
   },
+  
   mutations: {
     toggleMenu(state, isToggle) {
       if (typeof isToggle !== 'undefined') {
@@ -26,9 +28,11 @@ export default new Vuex.Store({
         state.menuIsOpen = !state.menuIsOpen;
       }
     },
+
     addMessage(state, data) {
       state.roomMessages.push(data);
       state.newMessage = data;
+      console.log(this.World)
     },
     newDragStream(state, data) {
       state.dragStream = data;

@@ -5,22 +5,38 @@ import { runInThisContext } from 'vm';
 
 export default {
   extends: ChatRoom,
+
+  props: {
+    room_id: {
+      type: Number,
+      default: 0
+    }
+  }, 
+
+  data(){
+    return {
+      CanvasOption:{
+        width: document.documentElement.clientWidth, 
+        height: document.documentElement.clientHeight-100, 
+        pixelRatio: 2,
+        background: "rgba(255, 255, 255, 255)",
+        wireframes: false,
+      }
+    }
+  },
+
   mounted(){
-    this.createCanvas(
-      document.documentElement.clientWidth,
-      document.documentElement.clientHeight-100
-    )
-    console.log(this.room_id)
+    this.createCanvas(this.CanvasOption)
+
     this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
     .then(res => {
-      console.log(res.data)
       this.$store.commit('initMessage', res.data );
 
       var that = this;
       res.data.forEach(function(v, i, a){
         that.addMessage(v);
       });
-
+      this.addcatapult();
     })
     .catch(err => {
       console.log(err)
@@ -32,7 +48,6 @@ export default {
       text2png.convert(messageData).then(res=>{
         var box = this.Bodies.rectangle(100, 100, res.w, res.h,{ 
           restitution: 0.2,
-          
           render: {
             sprite: {
               texture: res.url
@@ -43,8 +58,22 @@ export default {
       console.log(box)
       this.World.add(this.engine.world, [box]);
       });
-    }
+    },
 
+    addcatapult(){
+      var group = this.Body.nextGroup(true);
+      var catapult = this.Bodies.rectangle(400, 450, 320, 20, { collisionFilter: { group: group } }); 
+      var box = this.Bodies.rectangle(400, 500, 20, 80, { isStatic: true, collisionFilter: { group: group } });
+      this.World.add(this.engine.world, [
+        catapult, box,
+        this.Constraint.create({ 
+          bodyA: catapult, 
+          pointB: this.Vector.clone(catapult.position),
+          stiffness: 1,
+          length: 0
+        })
+      ]);
+    },
   },
 
   computed: {
