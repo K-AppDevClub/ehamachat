@@ -10,17 +10,15 @@ export default {
       document.documentElement.clientWidth,
       document.documentElement.clientHeight-100
     )
-    console.log(this.room_id)
+
     this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
     .then(res => {
-      console.log(res.data)
       this.$store.commit('initMessage', res.data );
 
       var that = this;
       res.data.forEach(function(v, i, a){
         that.addMessage(v);
       });
-
     })
     .catch(err => {
       console.log(err)
