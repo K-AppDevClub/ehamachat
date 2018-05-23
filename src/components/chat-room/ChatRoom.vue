@@ -21,7 +21,9 @@ export default {
         pixelRatio: 2,
         background: "rgba(255, 255, 255, 255)",
         wireframes: false,
-      }
+      },
+      width: document.documentElement.clientWidth, 
+      height: document.documentElement.clientHeight-100, 
     }
   },
 
@@ -60,8 +62,8 @@ export default {
 
     addcatapult(){
       var group = this.Body.nextGroup(true);
-      var catapult = this.Bodies.rectangle(400, 450, 320, 20, { collisionFilter: { group: group } }); 
-      var box = this.Bodies.rectangle(400, 500, 20, 80, { isStatic: true, collisionFilter: { group: group } });
+      var catapult = this.Bodies.rectangle(this.width/2, this.height/2+200, 320, 20, { collisionFilter: { group: group } }); 
+      var box = this.Bodies.rectangle(this.width/2, this.height/2+250, 20, 80, { isStatic: true, collisionFilter: { group: group } });
       this.World.add(this.engine.world, [
         catapult, box,
         this.Constraint.create({ 
@@ -79,6 +81,7 @@ export default {
       return this.$store.state.newMessage;
     },
   },
+  
 
   watch: {
     messages: function (val) {
