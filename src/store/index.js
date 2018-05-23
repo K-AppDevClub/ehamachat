@@ -10,11 +10,13 @@ export default new Vuex.Store({
     userInfo,
     createPlan,
   },
+
   state: {
     menuIsOpen: false,
     roomMessages: [],
     newMessage: {},
   },
+  
   mutations: {
     toggleMenu(state, isToggle) {
       if (typeof isToggle !== 'undefined') {
@@ -23,10 +25,13 @@ export default new Vuex.Store({
         state.menuIsOpen = !state.menuIsOpen;
       }
     },
+
     addMessage(state, data) {
       state.roomMessages.push(data);
       state.newMessage = data;
+      console.log(this.World)
     },
+
     initMessage(state, data) {
       state.roomMessages = data;
     },

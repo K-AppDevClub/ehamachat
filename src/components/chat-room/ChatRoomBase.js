@@ -60,7 +60,7 @@ export function generateCanvas() {
                 }
             }
         });
-        this.addcatapult()
+
         this.engine.world.gravity.y = 1.0; //重力を0に設定 デフォルトは1
         this.World.add(this.engine.world, [mouseConstraint, ground, groundl, groundr, groundt]);
         // keep the mouse in sync with rendering
@@ -68,30 +68,18 @@ export function generateCanvas() {
         this.Engine.run(this.engine);
         this.Render.run(this.render);
       },
-
-      addcatapult(){
-        var group = this.Body.nextGroup(true);
-        var catapult = this.Bodies.rectangle(400, 450, 320, 20, { collisionFilter: { group: group } }); 
-        var box = this.Bodies.rectangle(400, 500, 20, 80, { isStatic: true, collisionFilter: { group: group } });
-        this.World.add(this.engine.world, [
-          catapult, box,
-          this.Constraint.create({ 
-            bodyA: catapult, 
-            pointB: this.Vector.clone(catapult.position),
-            stiffness: 1,
-            length: 0
-          })
-        ]);
-      },
-
-      addSpring(){
-
-      },
-
     },
+
     beforeDestroy (){
       Matter.Runner.stop(this.engine)
       Matter.Runner.stop(this.render)
+      Matter.Composite.allBodies(this.engine.world).forEach(element => {
+        //this.world.clear(element
+        Matter.Composite.remove(this.engine.world, element)
+        console.log(element)
+      });
+      this.World .clear(this.engine.world)
+      this.Bodies = null;
       this.render.canvas.remove();
       this.render.canvas = null;
       this.render.context = null;

@@ -19,6 +19,7 @@ export default {
       res.data.forEach(function(v, i, a){
         that.addMessage(v);
       });
+      this.addcatapult();
     })
     .catch(err => {
       console.log(err)
@@ -30,18 +31,30 @@ export default {
       text2png.convert(messageData).then(res=>{
         var box = this.Bodies.rectangle(100, 100, res.w, res.h,{ 
           restitution: 0.2,
-          
           render: {
             sprite: {
               texture: res.url
             }
           }
         });
-      console.log(box)
       this.World.add(this.engine.world, [box]);
       });
-    }
+    },
 
+    addcatapult(){
+      var group = this.Body.nextGroup(true);
+      var catapult = this.Bodies.rectangle(400, 450, 320, 20, { collisionFilter: { group: group } }); 
+      var box = this.Bodies.rectangle(400, 500, 20, 80, { isStatic: true, collisionFilter: { group: group } });
+      this.World.add(this.engine.world, [
+        catapult, box,
+        this.Constraint.create({ 
+          bodyA: catapult, 
+          pointB: this.Vector.clone(catapult.position),
+          stiffness: 1,
+          length: 0
+        })
+      ]);
+    },
   },
 
   computed: {
