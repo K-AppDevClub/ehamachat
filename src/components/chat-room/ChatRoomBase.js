@@ -59,7 +59,7 @@ export function generateCanvas() {
             }
         });
         
-        this.engine.world.gravity.y = 0.2; //重力を0に設定 デフォルトは1
+        this.engine.world.gravity.y = 1.0; //重力を0に設定 デフォルトは1
         this.World.add(this.engine.world, [mouseConstraint, ground, groundl, groundr, groundt]);
         // keep the mouse in sync with rendering
         this.render.mouse = mouse;

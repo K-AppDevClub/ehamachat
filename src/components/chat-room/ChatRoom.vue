@@ -10,24 +10,36 @@ export default {
       document.documentElement.clientWidth,
       document.documentElement.clientHeight-100
     )
+    console.log(this.room_id)
+    this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
+    .then(res => {
+      console.log(res.data)
+      this.$store.commit('initMessage', res.data );
 
-    var that = this;
-    this.$store.state.roomMessages.forEach(function(v, i, a){
-      that.addMessage(v.message);
+      var that = this;
+      res.data.forEach(function(v, i, a){
+        that.addMessage(v);
+      });
+
+    })
+    .catch(err => {
+      console.log(err)
     });
   },
 
   methods: {
-    addMessage(message){
-      text2png.convert(message).then(res=>{
+    addMessage(messageData){
+      text2png.convert(messageData).then(res=>{
         var box = this.Bodies.rectangle(100, 100, res.w, res.h,{ 
-          restitution: 1.1,
+          restitution: 0.2,
+          
           render: {
             sprite: {
               texture: res.url
             }
           }
         });
+      console.log(box)
       this.World.add(this.engine.world, [box]);
       });
     }
@@ -43,7 +55,7 @@ export default {
   watch: {
     messages: function (val) {
       console.log(val);
-      this.addMessage(val.message)
+      this.addMessage(val)
     },
   }
 }
