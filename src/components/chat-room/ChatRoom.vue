@@ -6,12 +6,6 @@ import { runInThisContext } from 'vm';
 export default {
   extends: ChatRoom,
 
-  props: {
-    room_id: {
-      type: Number,
-      default: 0
-    }
-  }, 
 
   data(){
     return {
@@ -23,22 +17,36 @@ export default {
         wireframes: false,
       },
       width: document.documentElement.clientWidth, 
-      height: document.documentElement.clientHeight-100, 
+      height: document.documentElement.clientHeight-100,
+      users: [],
+      colors: ["red","blue","black","gold","green","lime","pink","gray","orange","turquoise"],
     }
   },
 
+  props: {
+      room_id: {
+        type: Number,
+        default: 0
+      },
+      name: {
+        default: "ほしなり",
+      },
+    },
+  
   mounted(){
     this.createCanvas(this.CanvasOption)
 
     this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
     .then(res => {
       this.$store.commit('initMessage', res.data );
-
       var that = this;
       res.data.forEach(function(v, i, a){
+        that.createUsers(v.name);
         that.addMessage(v);
       });
+
       this.addcatapult();
+      this.users.push(this.name);
     })
     .catch(err => {
       console.log(err)
@@ -46,9 +54,22 @@ export default {
   },
 
   methods: {
+    createUsers(name){
+      var isUserExists = false;
+      for(var index in this.users){
+        if(this.users[index]== name){
+          isUserExists = true;
+          break;
+        }
+      }
+      if(!isUserExists){
+        this.users.push(name);    
+      }
+    },
     addMessage(messageData){
-      text2png.convert(messageData).then(res=>{
-        var box = this.Bodies.rectangle(100, 100, res.w, res.h,{ 
+      // nameのインデックスどこか調べる
+      text2png.convert(messageData, this.colors[this.users.indexOf(messageData.name)]).then(res=>{
+        var box = this.Bodies.rectangle(100, 100, res.w, res.h,{
           restitution: 0.2,
           render: {
             sprite: {
@@ -97,6 +118,7 @@ export default {
   watch: {
     messages: function (val) {
       console.log(val);
+      this.createUsers(val.name)
       this.addMessage(val)
     },
     dragObj: function (obj) {
