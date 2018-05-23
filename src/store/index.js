@@ -15,6 +15,9 @@ export default new Vuex.Store({
     menuIsOpen: false,
     roomMessages: [],
     newMessage: {},
+    dragObj: {},
+    dragPos: {},
+    dragStream: {},
   },
   
   mutations: {
@@ -31,7 +34,16 @@ export default new Vuex.Store({
       state.newMessage = data;
       console.log(this.World)
     },
-
+    newDragStream(state, data) {
+      state.dragStream = data;
+    },
+    newDragObj(state, obj) {
+      state.dragObj = obj;
+    },
+    changeDragPos(state, position) {
+      console.log(position);
+      state.dragPos = position;
+    },
     initMessage(state, data) {
       state.roomMessages = data;
     },

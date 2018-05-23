@@ -12,11 +12,14 @@ export function generateCanvas() {
     
     data() {
       return {
-        Engine: Matter.Engine, World: Matter.World, 
-        Bodies: Matter.Bodies, Render: Matter.Render,
-        Body: Matter.Body, Constraint: Matter.Constraint,
-        Vector: Matter.Vector,
-        render: null, engine: null,
+        Engine: Matter.Engine, 
+        World: Matter.World, 
+        Events: Matter.Events,
+        Bodies: Matter.Bodies, 
+        Body: Matter.Body, 
+        Render: Matter.Render,
+        render: null, 
+        engine: null,
         MouseConstraint: Matter.MouseConstraint, Mouse: Matter.Mouse,
         Composites: Matter.Composites,
      }
@@ -53,9 +56,22 @@ export function generateCanvas() {
         Matter.World.add(this.engine.world, [mouseConstraint, ground, groundl, groundr, groundt]);
         // keep the mouse in sync with rendering
         this.render.mouse = mouse;
-        Matter.Engine.run(this.engine);
-        Matter.Render.run(this.render);
+        this.Engine.run(this.engine);
+        this.Render.run(this.render);
+
+        this.Events.on(mouseConstraint, "startdrag", (e) => {
+          console.log(e.body);
+          this.$store.commit('newDragObj', e.body );
+        });
+        this.Events.on(mouseConstraint, "mousemove", (e) => {
+          console.log(e.mouse.position);
+          this.$store.commit('changeDragPos', {x:e.mouse.position.x,y:e.mouse.position.y} );
+        });
       },
+      add(){
+        var boxB = this.Bodies.rectangle(450, 50, 80, 80); 
+        this.World.add(engine.world)
+      }
     },
 
     beforeDestroy (){
