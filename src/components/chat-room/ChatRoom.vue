@@ -1,5 +1,7 @@
 <script>
 import { ChatRoom } from './ChatRoomBase.js'
+import text2png from "../../services/text2png.js"
+import { runInThisContext } from 'vm';
 
 export default {
   extends: ChatRoom,
@@ -10,25 +12,27 @@ export default {
     )
     var that = this;
     this.$store.state.roomMessages.forEach(function(v, i, a){ 
-      var canvas = document.createElement("canvas")
-      canvas.width = 30
-      canvas.height = 30
-      var ctx = canvas.getContext("2d")
-      ctx.font = "10px serif";
-      ctx.strokeText("ehama", 10, 10);
-      var url = canvas.toDataURL()
-      console.log(url)
-      var cir = that.Bodies.circle(30+i*10, 50, 20, { 
+      that.addMessage(v.message);
+    });
+  },
+
+  methods: {
+    addMessage(message){
+      text2png.convert(message).then(res=>{
+        var cir = this.Bodies.circle(30*10, 50, 20, { 
         restitution: 1.1,
         render: {
           sprite: {
-              texture: url
+              texture: res.url
           }
         }
       });
-      that.World.add(that.engine.world, [cir]);
-    });
+        this.World.add(this.engine.world, [cir]);
+      });
+    }
+
   },
+
   computed: {
     messages() {
       return this.$store.state.newMessage;
@@ -37,8 +41,7 @@ export default {
   watch: {
     messages: function (val) {
       console.log(val.message);
-      var cir = this.Bodies.circle(20, 50, 20, { restitution: 1.1 });
-      this.World.add(this.engine.world, [cir]);
+      this.addMessage(val.message)
     },
   }
 }
