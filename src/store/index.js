@@ -14,6 +14,9 @@ export default new Vuex.Store({
     menuIsOpen: false,
     roomMessages: [],
     newMessage: {},
+    dragObj: {},
+    dragPos: {},
+    dragStream: {},
   },
   mutations: {
     toggleMenu(state, isToggle) {
@@ -26,6 +29,16 @@ export default new Vuex.Store({
     addMessage(state, data) {
       state.roomMessages.push(data);
       state.newMessage = data;
+    },
+    newDragStream(state, data) {
+      state.dragStream = data;
+    },
+    newDragObj(state, obj) {
+      state.dragObj = obj;
+    },
+    changeDragPos(state, position) {
+      console.log(position);
+      state.dragPos = position;
     },
     initMessage(state, data) {
       state.roomMessages = data;

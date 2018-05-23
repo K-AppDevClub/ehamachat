@@ -26,11 +26,7 @@ export default {
     };
   },
   beforeDestroy() {
-    // this.messageChannel.perform('unsubscribed');
     this.$cable.subscriptions.remove(this.messageChannel);
-  },
-  destroyed() {
-    console.log("destroyed component")
   },
   mounted() {
     var that = this
@@ -48,6 +44,8 @@ export default {
           that.messages.push(data)
           if(data.status=="msg")
             that.$store.commit('addMessage', data );
+          if(data.status=="drag")
+            that.$store.commit('newDragStream', data );
         },
       }
     )
@@ -55,7 +53,37 @@ export default {
   methods: {
     speak() {
       var msg = document.getElementById('message_input').value || "hellooo"
-      this.messageChannel.perform('speak', {name: this.name, message: msg });
+      this.messageChannel.perform('speak', {
+        name: this.name, 
+        message: msg, 
+        obj_state: {}, 
+      });
+    },
+    drag(position) {
+      var obj_state = {
+        x: position.x, 
+        y: position.y, 
+        message_id: this.dragObj.message.id,
+      }
+      this.messageChannel.perform('drag', obj_state);
+    },
+  },
+  computed: {
+    dragObj() {
+      return this.$store.state.dragObj;
+    },
+    dragPos() {
+      return this.$store.state.dragPos;
+    },
+  },
+  watch: {
+    dragObj: function (obj) {
+      console.log(obj);
+      this.drag({x:obj.position.x,y:obj.position.y});
+    },
+    dragPos: function (position) {
+      console.log(position);
+      this.drag(position);
     },
   }
 };
