@@ -34,6 +34,7 @@ export function generateCanvas() {
           engine: this.engine, 
           options: CanvasOption
         });
+
         var width = CanvasOption.width, height = CanvasOption.height;
         // var boxB = this.Bodies.rectangle(450, 50, 80, 80); 
         var ground =  this.Bodies.rectangle(width/2, height,   width, 30, { isStatic: true });
@@ -45,10 +46,10 @@ export function generateCanvas() {
         var mouseConstraint = Matter.MouseConstraint.create(this.engine, {
             mouse: mouse,
             constraint: {
-                stiffness: 0.2,
-                render: {
-                    visible: false
-                }
+              stiffness: 0.2,
+              render: {
+                visible: false
+              }
             }
         });
 
@@ -68,10 +69,6 @@ export function generateCanvas() {
           this.$store.commit('changeDragPos', {x:e.mouse.position.x,y:e.mouse.position.y} );
         });
       },
-      add(){
-        var boxB = this.Bodies.rectangle(450, 50, 80, 80); 
-        this.World.add(engine.world)
-      }
     },
 
     beforeDestroy (){
