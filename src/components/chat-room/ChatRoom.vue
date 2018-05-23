@@ -10,6 +10,9 @@ export default {
       document.documentElement.clientWidth,
       document.documentElement.clientHeight-100
     )
+    this.width=document.documentElement.clientWidth;
+    this.height=document.documentElement.clientHeight;
+    //console.log(document.documentElement.clientHeight);
 
     this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
     .then(res => {
@@ -24,6 +27,12 @@ export default {
     .catch(err => {
       console.log(err)
     });
+  },
+  data(){
+    return{
+      width:1,
+      height:1
+    }
   },
 
   methods: {
@@ -43,8 +52,9 @@ export default {
 
     addcatapult(){
       var group = this.Body.nextGroup(true);
-      var catapult = this.Bodies.rectangle(400, 450, 320, 20, { collisionFilter: { group: group } }); 
-      var box = this.Bodies.rectangle(400, 500, 20, 80, { isStatic: true, collisionFilter: { group: group } });
+      var catapult = this.Bodies.rectangle(this.width/2, this.height/2+150, 320, 20, { collisionFilter: { group: group } }); 
+      var box = this.Bodies.rectangle(this.width/2, this.height/2+200, 20, 80, { isStatic: true, collisionFilter: { group: group } });
+      
       this.World.add(this.engine.world, [
         catapult, box,
         this.Constraint.create({ 
@@ -62,6 +72,7 @@ export default {
       return this.$store.state.newMessage;
     },
   },
+  
 
   watch: {
     messages: function (val) {
