@@ -10,12 +10,7 @@ export function generateCanvas() {
       )
     },
     
-    props: {
-      room_id: {
-        type: Number,
-        default: 0
-      }
-    },
+    
     
     data() {
       return {
