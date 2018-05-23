@@ -22,6 +22,8 @@ export function generateCanvas() {
         engine: null,
         MouseConstraint: Matter.MouseConstraint, Mouse: Matter.Mouse,
         Composites: Matter.Composites,
+        Composite: Matter.Composite,
+        Common: Matter.Common,
      }
     },
 
@@ -60,6 +62,7 @@ export function generateCanvas() {
         this.Render.run(this.render);
 
         this.Events.on(mouseConstraint, "startdrag", (e) => {
+          this.shakeScene(this.engin);
           console.log(e.body);
           this.$store.commit('newDragObj', e.body );
         });
@@ -67,6 +70,19 @@ export function generateCanvas() {
           console.log(e.mouse.position);
           this.$store.commit('changeDragPos', {x:e.mouse.position.x,y:e.mouse.position.y} );
         });
+      },
+
+      // クリックしたらめっちゃ飛ぶやつ
+      shakeScene(engine) {
+        var bodies = this.Composite.allBodies(this.engine.world);
+        for (var i = 0; i < bodies.length; i++) {
+          var body = bodies[i];
+          var forceMagnitude = 0.02 * body.mass;
+          this.Body.applyForce(body, body.position, {
+            x: (forceMagnitude + this.Common.random() * forceMagnitude) * this.Common.choose([1, -1]),
+            y: -forceMagnitude + this.Common.random() * -forceMagnitude
+          });
+        }
       },
       add(){
         var boxB = this.Bodies.rectangle(450, 50, 80, 80); 
