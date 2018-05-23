@@ -10,13 +10,6 @@ export function generateCanvas() {
       )
     },
     
-    props: {
-      room_id: {
-        type: Number,
-        default: 0
-      }
-    },
-    
     data() {
       return {
         Engine: Matter.Engine, World: Matter.World, 
@@ -30,28 +23,23 @@ export function generateCanvas() {
     },
 
     methods:{
-      createCanvas(width, height) {
+      createCanvas(CanvasOption) {
         var stage = this.$refs.canvas;
         this.engine = this.Engine.create()
         this.render = this.Render.create({
           element: stage,
           engine: this.engine, 
-          options: {
-            width: width, height: height, 
-            pixelRatio: 2, //Pixel比; スマホ用に2にする
-            background: "rgba(255, 255, 255, 255)",
-            wireframes: false,
-          }
-        })
-
+          options: CanvasOption
+        });
+        var width = CanvasOption.width, height = CanvasOption.height;
         // var boxB = this.Bodies.rectangle(450, 50, 80, 80); 
         var ground =  this.Bodies.rectangle(width/2, height,   width, 30, { isStatic: true });
         var groundt = this.Bodies.rectangle(width/2, 0,        width, 30, { isStatic: true });
         var groundr = this.Bodies.rectangle(width,   height/2, 30,    height, { isStatic: true });
         var groundl = this.Bodies.rectangle(0,       height/2, 30,    height, { isStatic: true });
      
-        var mouse = this.Mouse.create(this.render.canvas);
-        var mouseConstraint = this.MouseConstraint.create(this.engine, {
+        var mouse = Matter.Mouse.create(this.render.canvas);
+        var mouseConstraint = Matter.MouseConstraint.create(this.engine, {
             mouse: mouse,
             constraint: {
                 stiffness: 0.2,
@@ -62,11 +50,11 @@ export function generateCanvas() {
         });
 
         this.engine.world.gravity.y = 1.0; //重力を0に設定 デフォルトは1
-        this.World.add(this.engine.world, [mouseConstraint, ground, groundl, groundr, groundt]);
+        Matter.World.add(this.engine.world, [mouseConstraint, ground, groundl, groundr, groundt]);
         // keep the mouse in sync with rendering
         this.render.mouse = mouse;
-        this.Engine.run(this.engine);
-        this.Render.run(this.render);
+        Matter.Engine.run(this.engine);
+        Matter.Render.run(this.render);
       },
     },
 
@@ -74,12 +62,9 @@ export function generateCanvas() {
       Matter.Runner.stop(this.engine)
       Matter.Runner.stop(this.render)
       Matter.Composite.allBodies(this.engine.world).forEach(element => {
-        //this.world.clear(element
         Matter.Composite.remove(this.engine.world, element)
-        console.log(element)
       });
-      this.World .clear(this.engine.world)
-      this.Bodies = null;
+      Matter.World.clear(this.engine.world)
       this.render.canvas.remove();
       this.render.canvas = null;
       this.render.context = null;

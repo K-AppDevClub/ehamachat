@@ -5,11 +5,28 @@ import { runInThisContext } from 'vm';
 
 export default {
   extends: ChatRoom,
+
+  props: {
+    room_id: {
+      type: Number,
+      default: 0
+    }
+  }, 
+
+  data(){
+    return {
+      CanvasOption:{
+        width: document.documentElement.clientWidth, 
+        height: document.documentElement.clientHeight-100, 
+        pixelRatio: 2,
+        background: "rgba(255, 255, 255, 255)",
+        wireframes: false,
+      }
+    }
+  },
+
   mounted(){
-    this.createCanvas(
-      document.documentElement.clientWidth,
-      document.documentElement.clientHeight-100
-    )
+    this.createCanvas(this.CanvasOption)
 
     this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
     .then(res => {
