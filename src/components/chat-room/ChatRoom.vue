@@ -10,9 +10,8 @@ export default {
       document.documentElement.clientWidth,
       document.documentElement.clientHeight-100
     )
-    console.log(this.room_id)
+
     var that = this;
-    console.log(this.$store.state.roomMessages)
     this.$store.state.roomMessages.forEach(function(v, i, a){
       that.addMessage(v.message);
     });
@@ -21,7 +20,7 @@ export default {
   methods: {
     addMessage(message){
       text2png.convert(message).then(res=>{
-        var cir = this.Bodies.circle(30*10, 50, 20, { 
+        var box = this.Bodies.rectangle(100, 100, res.w, res.h,{ 
           restitution: 1.1,
           render: {
             sprite: {
@@ -29,7 +28,7 @@ export default {
             }
           }
         });
-      this.World.add(this.engine.world, [cir]);
+      this.World.add(this.engine.world, [box]);
       });
     }
 
@@ -43,7 +42,7 @@ export default {
 
   watch: {
     messages: function (val) {
-      console.log(val.message);
+      console.log(val);
       this.addMessage(val.message)
     },
   }
