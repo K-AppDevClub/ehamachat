@@ -1,7 +1,7 @@
 <template>
   <ons-page>
     <navbar navType="back" backType="router" v-bind:msg="room_name"></navbar>
-    <chat-room/>
+    <chat-room :room_id="room_id"/>
     <chat v-bind:room_id="room_id" v-bind:name="user_name"/>
   </ons-page>
 </template>

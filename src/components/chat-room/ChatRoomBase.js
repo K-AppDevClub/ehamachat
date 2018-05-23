@@ -5,21 +5,16 @@ export function generateCanvas() {
     render: function(createElement){
       return createElement(
         'div', {
-          style: this.style,
-          class: this.cssClasses,
           ref: "canvas"
         },
       )
     },
     
     props: {
-      cssClasses: {
-        type: String,
-        default: ''
-      },
-      styles: {
-        type: Object
-      },
+      room_id: {
+        type: Number,
+        default: 0
+      }
     },
     
     data() {
@@ -52,8 +47,7 @@ export function generateCanvas() {
         var groundt = this.Bodies.rectangle(width/2, 0,        width, 30, { isStatic: true });
         var groundr = this.Bodies.rectangle(width,   height/2, 30,    height, { isStatic: true });
         var groundl = this.Bodies.rectangle(0,       height/2, 30,    height, { isStatic: true });
-        //var ground = this.Bodies.rectangle(this.width/2, this.height-30, this.width, 15, { isStatic: true });
-
+     
         var mouse = this.Mouse.create(this.render.canvas);
         var mouseConstraint = this.MouseConstraint.create(this.engine, {
             mouse: mouse,

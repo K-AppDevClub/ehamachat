@@ -10,8 +10,10 @@ export default {
       document.documentElement.clientWidth,
       document.documentElement.clientHeight-100
     )
+    console.log(this.room_id)
     var that = this;
-    this.$store.state.roomMessages.forEach(function(v, i, a){ 
+    console.log(this.$store.state.roomMessages)
+    this.$store.state.roomMessages.forEach(function(v, i, a){
       that.addMessage(v.message);
     });
   },
@@ -20,14 +22,14 @@ export default {
     addMessage(message){
       text2png.convert(message).then(res=>{
         var cir = this.Bodies.circle(30*10, 50, 20, { 
-        restitution: 1.1,
-        render: {
-          sprite: {
+          restitution: 1.1,
+          render: {
+            sprite: {
               texture: res.url
+            }
           }
-        }
-      });
-        this.World.add(this.engine.world, [cir]);
+        });
+      this.World.add(this.engine.world, [cir]);
       });
     }
 
@@ -38,6 +40,7 @@ export default {
       return this.$store.state.newMessage;
     },
   },
+
   watch: {
     messages: function (val) {
       console.log(val.message);
