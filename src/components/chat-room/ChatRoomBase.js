@@ -10,6 +10,8 @@ export function generateCanvas() {
       )
     },
     
+    
+    
     data() {
       return {
         Engine: Matter.Engine, 
