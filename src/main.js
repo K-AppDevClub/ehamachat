@@ -12,6 +12,7 @@ import ActionCable from 'actioncable';
 import 'onsenui/css/onsenui.css';
 import App from './App';
 import routes from './routes';
+import anime from 'animejs'
 const cable = ActionCable.createConsumer('ws:k-appdev.com:3003/cable');
 
 import 'onsenui/css/onsen-css-components.css';
