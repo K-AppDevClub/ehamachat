@@ -55,17 +55,11 @@ export default {
 
   methods: {
     createUsers(name){
-      var isUserExists = false;
-      for(var index in this.users){
-        if(this.users[index]== name){
-          isUserExists = true;
-          break;
-        }
-      }
-      if(!isUserExists){
-        this.users.push(name);    
-      }
+      for(var index in this.users)
+        if(this.users[index] == name) return ;
+      this.users.push(name);    
     },
+
     addMessage(messageData){
       // nameのインデックスどこか調べる
       text2png.convert(messageData, this.colors[this.users.indexOf(messageData.name)]).then(res=>{
@@ -78,7 +72,6 @@ export default {
           }
         });
       box.message = messageData;
-      console.log(box)
       this.World.add(this.engine.world, [box]);
       });
     },

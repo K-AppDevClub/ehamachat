@@ -24,6 +24,8 @@ export function generateCanvas() {
         engine: null,
         MouseConstraint: Matter.MouseConstraint, Mouse: Matter.Mouse,
         Composites: Matter.Composites,
+        Composite: Matter.Composite,
+        Common: Matter.Common,
      }
     },
 
@@ -38,7 +40,7 @@ export function generateCanvas() {
         });
 
         var width = CanvasOption.width, height = CanvasOption.height;
-        // var boxB = this.Bodies.rectangle(450, 50, 80, 80); 
+
         var ground =  this.Bodies.rectangle(width/2, height,   width, 30, { isStatic: true });
         var groundt = this.Bodies.rectangle(width/2, 0,        width, 30, { isStatic: true });
         var groundr = this.Bodies.rectangle(width,   height/2, 30,    height, { isStatic: true });
@@ -63,14 +65,26 @@ export function generateCanvas() {
         this.Render.run(this.render);
 
         this.Events.on(mouseConstraint, "startdrag", (e) => {
+          this.shakeScene(this.engin);
           console.log(e.body);
           this.$store.commit('newDragObj', e.body );
         });
         this.Events.on(mouseConstraint, "mousemove", (e) => {
           console.log(e.mouse.position);
-          this.$store.commit('changeDragPos', {x:e.mouse.position.x,y:e.mouse.position.y} );
+          this.$store.commit('changeDragPos', {x:e.mouse.position.x, y:e.mouse.position.y} );
         });
-      },z
+
+      },
+
+      shakeScene(engine) {
+        this.Composite.allBodies(this.engine.world).forEach( (body, i, a) => {
+          var forceMagnitude = 0.02 * body.mass;
+          this.Body.applyForce(body, body.position, {
+            x: (forceMagnitude + this.Common.random() * forceMagnitude) * this.Common.choose([1, -1]),
+            y: -forceMagnitude + this.Common.random() * -forceMagnitude
+          });
+        })
+      },
     },
 
     beforeDestroy (){
