@@ -2,10 +2,12 @@
 import { ChatRoom } from './ChatRoomBase.js'
 import text2png from "../../services/text2png.js"
 import { runInThisContext } from 'vm';
+import EventMixin from "./EventMixin.js"
+//import { promises } from 'fs';
 
 export default {
   extends: ChatRoom,
-
+  mixins: [EventMixin],
 
   data(){
     return {
@@ -16,6 +18,7 @@ export default {
         background: "rgba(255, 255, 255, 255)",
         wireframes: false,
       },
+
       width: document.documentElement.clientWidth, 
       height: document.documentElement.clientHeight-100,
       users: [],
@@ -39,33 +42,38 @@ export default {
     this.axios.get(`http://k-appdev.com:3003/rooms/${this.room_id}/messages`)
     .then(res => {
       this.$store.commit('initMessage', res.data );
-      var that = this;
-      res.data.forEach(function(v, i, a){
-        that.createUsers(v.name);
-        that.addMessage(v);
+  
+      res.data.forEach( (v, i, a) => {
+        this.createUsers(v.name);
+        this.addMessage(v);
       });
 
+      this.addGround(this.width, this.height);
       this.addcatapult();
       this.users.push(this.name);
+
     })
     .catch(err => {
       console.log(err)
     });
+
+    this.addMouseEvent("startdrag", (e)=>{
+      this.shakeScene(this.engine);
+      this.$store.commit('newDragObj', e.body );
+    });
+    
+    this.addMouseEvent("mousemove", (e)=> {
+      console.log(e.mouse.position);
+      this.$store.commit('changeDragPos', {x:e.mouse.position.x, y:e.mouse.position.y} );
+    })
   },
 
   methods: {
     createUsers(name){
-      var isUserExists = false;
-      for(var index in this.users){
-        if(this.users[index]== name){
-          isUserExists = true;
-          break;
-        }
-      }
-      if(!isUserExists){
-        this.users.push(name);    
-      }
+      if( name in this.users ) return ;
+      this.users.push(name);    
     },
+
     addMessage(messageData){
       // nameのインデックスどこか調べる
       text2png.convert(messageData, this.colors[this.users.indexOf(messageData.name)]).then(res=>{
@@ -78,9 +86,17 @@ export default {
           }
         });
       box.message = messageData;
-      console.log(box)
       this.World.add(this.engine.world, [box]);
       });
+    },
+
+    addGround(w, h, tbrl="tbrl"){
+      //[top, bottom, right, left]   [x, y, width, height]
+      var propaty = {"b":[w/2, h, w, 30], "t":[w/2, 0, w, 30], "r":[w, h/2, 30, h], "l":[0, h/2, 30, h]};
+      var groundList = tbrl.split("").map( (key) => { 
+        return this.Bodies.rectangle(...propaty[key], { isStatic: true });
+      });
+      this.World.add(this.engine.world, groundList)
     },
 
     addcatapult(){
