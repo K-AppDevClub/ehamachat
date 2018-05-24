@@ -32,7 +32,6 @@ export default new Vuex.Store({
     addMessage(state, data) {
       state.roomMessages.push(data);
       state.newMessage = data;
-      console.log(this.World)
     },
     newDragStream(state, data) {
       state.dragStream = data;

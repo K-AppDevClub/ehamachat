@@ -10,8 +10,6 @@ export function generateCanvas() {
       )
     },
     
-    
-    
     data() {
       return {
         Engine: Matter.Engine, 
@@ -20,9 +18,12 @@ export function generateCanvas() {
         Bodies: Matter.Bodies, 
         Body: Matter.Body, 
         Render: Matter.Render,
+        Vector: Matter.Vector,
         render: null, 
         engine: null,
+        mouseConstraint: null,
         MouseConstraint: Matter.MouseConstraint, Mouse: Matter.Mouse,
+        Constraint: Matter.Constraint,
         Composites: Matter.Composites,
         Composite: Matter.Composite,
         Common: Matter.Common,
@@ -32,22 +33,15 @@ export function generateCanvas() {
     methods:{
       createCanvas(CanvasOption) {
         var stage = this.$refs.canvas;
-        this.engine = this.Engine.create()
-        this.render = this.Render.create({
+        this.engine = Matter.Engine.create()
+        this.render = Matter.Render.create({
           element: stage,
           engine: this.engine, 
           options: CanvasOption
         });
 
-        var width = CanvasOption.width, height = CanvasOption.height;
-
-        var ground =  this.Bodies.rectangle(width/2, height,   width, 30, { isStatic: true });
-        var groundt = this.Bodies.rectangle(width/2, 0,        width, 30, { isStatic: true });
-        var groundr = this.Bodies.rectangle(width,   height/2, 30,    height, { isStatic: true });
-        var groundl = this.Bodies.rectangle(0,       height/2, 30,    height, { isStatic: true });
-     
         var mouse = Matter.Mouse.create(this.render.canvas);
-        var mouseConstraint = Matter.MouseConstraint.create(this.engine, {
+        this.mouseConstraint = Matter.MouseConstraint.create(this.engine, {
             mouse: mouse,
             constraint: {
               stiffness: 0.2,
@@ -58,33 +52,16 @@ export function generateCanvas() {
         });
 
         this.engine.world.gravity.y = 1.0; //重力を0に設定 デフォルトは1
-        Matter.World.add(this.engine.world, [mouseConstraint, ground, groundl, groundr, groundt]);
-        // keep the mouse in sync with rendering
+        Matter.World.add(this.engine.world, [this.mouseConstraint]);
         this.render.mouse = mouse;
-        this.Engine.run(this.engine);
-        this.Render.run(this.render);
-
-        this.Events.on(mouseConstraint, "startdrag", (e) => {
-          this.shakeScene(this.engin);
-          console.log(e.body);
-          this.$store.commit('newDragObj', e.body );
-        });
-        this.Events.on(mouseConstraint, "mousemove", (e) => {
-          console.log(e.mouse.position);
-          this.$store.commit('changeDragPos', {x:e.mouse.position.x, y:e.mouse.position.y} );
-        });
-
+        Matter.Engine.run(this.engine);
+        Matter.Render.run(this.render);
       },
 
-      shakeScene(engine) {
-        this.Composite.allBodies(this.engine.world).forEach( (body, i, a) => {
-          var forceMagnitude = 0.02 * body.mass;
-          this.Body.applyForce(body, body.position, {
-            x: (forceMagnitude + this.Common.random() * forceMagnitude) * this.Common.choose([1, -1]),
-            y: -forceMagnitude + this.Common.random() * -forceMagnitude
-          });
-        })
+      addMouseEvent(eventName, func){
+        Matter.Events.on(this.mouseConstraint, eventName, func) 
       },
+
     },
 
     beforeDestroy (){
